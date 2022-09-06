@@ -6,18 +6,20 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
 import {HashRouter} from "react-router-dom";
-import {store} from "./store";
+import {persistor, store} from "./store";
+import {PersistGate} from "redux-persist/integration/react";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 root.render(
     <HashRouter>
         <Provider store={store}>
-            <App />
+            <PersistGate loading={null} persistor={persistor}>
+                <App/>
+            </PersistGate>
         </Provider>
     </HashRouter>
-
 );
 
 // If you want to start measuring performance in your app, pass a function
