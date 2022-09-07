@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'antd/dist/antd.css';
 import './index.css';
-import App from './App';
+import App from './App/App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
 import {HashRouter} from "react-router-dom";
-import {persistor, store} from "./store";
+import {persistor, store} from "./App/store";
 import {PersistGate} from "redux-persist/integration/react";
 
 const root = ReactDOM.createRoot(

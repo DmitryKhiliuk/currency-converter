@@ -1,13 +1,13 @@
 import React from 'react';
-import './App.css';
 import {Route, Routes} from "react-router-dom";
-import {Converter} from "./Converter";
-import {Rate} from "./Rate";
-import {Navigation} from "./Navigation";
+import {Converter} from "../Components/Converter/Converter";
+import {Rate} from "../Components/Rate/Rate";
+import {Navigation} from "../Components/Navigation/Navigation";
+import s from './App.module.css'
 
 function App() {
     return (
-        <div className="App">
+        <div className={s.appStyle}>
             <Navigation/>
             <Routes>
                 <Route path={'/'} element={<Converter/>}/>

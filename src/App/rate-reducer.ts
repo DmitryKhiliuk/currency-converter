@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {rateAPI} from "./api";
+import {rateAPI} from "../Api/api";
 
 export type RatesType = {
 
@@ -7,7 +7,9 @@ export type RatesType = {
 
 export type RateResponseType = {
     table: string,
-    rates: {},
+    rates: {
+        [key:string]: number
+    },
     lastupdate: string
 
 }

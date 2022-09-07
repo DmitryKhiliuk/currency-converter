@@ -1,0 +1,13 @@
+.rate {
+
+}
+.control {
+    max-width: 40%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+.controlItem {
+
+}
