@@ -34,21 +34,31 @@ export const Rate = () => {
     const onChange = (value: number) => {
         console.log('changed', value);
     };
+
+    const value = 85.1;
+
+    const usd = new Intl.NumberFormat("ru", {style: "currency", currency: "USD", currencyDisplay: "name", minimumFractionDigits: 0}).format(value);
+    console.log(usd);
+
+    const keys = Object.keys(rate.rates)
+
     return (
         <div className={s.rate}>
             <div className={s.control}>
                 <div className={s.controlItem}>
                     <div>Base Currency</div>
+
                     <Select
-                        defaultValue="Dollar"
+                        defaultValue={new Intl.NumberFormat("en", {style: "currency", currency: "USD", currencyDisplay: "name", minimumFractionDigits: 0}).format(1).substring(1)}
                         style={{
                             width: 120,
                         }}
                         onChange={handleChange}
                     >
-                        <Option value="Dollar">Dollar</Option>
+
+                        {/*<Option value="Dollar">Dollar</Option>
                         <Option value="Euro">Euro</Option>
-                        <Option value="Tugrik">Tugrik</Option>
+                        <Option value="Tugrik">Tugrik</Option>*/}
                     </Select>
                 </div>
                 <div className={s.controlItem}>
