@@ -8,6 +8,7 @@ import {RateResponseType} from "../../App/rate-reducer";
 
 type RateTableType = {
     rate: RateResponseType
+    currencyBase: string
 }
 
 export const RateTable = (props: RateTableType) => {
@@ -58,7 +59,7 @@ export const RateTable = (props: RateTableType) => {
             dataItem.key = index + 1
             dataItem.CurrencyName = new Intl.NumberFormat("EN", {style: "currency", currency: el, currencyDisplay: "name", minimumFractionDigits: 0}).format(1).substring(1)
             dataItem.CurrencyCode = el
-            dataItem.Amount = props.rate.rates[el]
+            dataItem.Amount = props.rate.rates[el]/props.rate.rates[props.currencyBase]
             return data.push(dataItem)
         }
 
