@@ -5,7 +5,7 @@ import {AppRootStateType, useAppDispatch, useAppSelector} from "../../App/store"
 import {RateTable} from "./RateTable";
 import s from './Rate.module.css'
 import '../../flags.css'
-import {log} from "util";
+
 
 
 export const Rate = () => {
@@ -13,9 +13,10 @@ export const Rate = () => {
     const dispatch = useAppDispatch();
     const rate = useAppSelector((state) => state.rate)
 
-
+    const [currencyBase, setCurrencyBase] = useState('USD')
+    const [quantity, setQuantity] = useState(1)
     let difference = new Date().getTime() - new Date(rate.lastupdate).getTime()
-    console.log(difference)
+    let defaultValue = currencyBase
 
     useEffect(() => {
         if (difference && difference > 14400000) {
@@ -25,46 +26,36 @@ export const Rate = () => {
 
     const {Option} = Select;
 
-    const [currencyBase, setCurrencyBase] = useState('USD')
 
+    console.log(currencyBase)
     const handleChange = (value: any) => {
         setCurrencyBase(value)
     };
 
     const onChange = (value: number) => {
-        console.log('changed', value);
+        setQuantity(value);
     };
-
-    const value = 85.1;
-
-    const usd = new Intl.NumberFormat("ru", {
-        style: "currency",
-        currency: "USD",
-        currencyDisplay: "name",
-        minimumFractionDigits: 0
-    }).format(value);
-    console.log(usd);
 
     const keys = Object.keys(rate.rates).filter(el => el.length === 3)
     const currencyCode = ['USD', 'EUR', 'GBP', 'PLN', 'CHF', 'BYN'].concat(keys.filter(el => el!=='USD'&&el!=='EUR'&&el!=='GBP'&&el!=='PLN'&&el!=='CHF'&&el!=='BYN')) // placing elements in main positions
-    const defaultItem = keys.find(el => el === 'USD')
 
 
+    const saveCurrencyBase = (text:string) => {
+        setCurrencyBase(text)
 
+
+    }
+    const onClickHandler = () => {
+
+    }
     return (
         <div className={s.rate}>
             <div className={s.control}>
                 <div className={s.controlItem}>
                     <>
                         <div>Base Currency</div>
-
                         <Select
-                            defaultValue={new Intl.NumberFormat("en", {
-                                style: "currency",
-                                currency: defaultItem,
-                                currencyDisplay: "name",
-                                minimumFractionDigits: 0
-                            }).format(1).substring(1)}
+                            value={defaultValue}
                             style={{
                                 width: 120,
                             }}
@@ -84,11 +75,10 @@ export const Rate = () => {
                     <InputNumber min={1} defaultValue={1} onChange={onChange}/>
                 </div>
                 <div>
-                    <Button type="primary">Apply</Button>
+                    <Button type="primary" onClick={onClickHandler}>Apply</Button>
                 </div>
             </div>
-            <i className="flag-US"></i>
-            <RateTable rate={rate} currencyBase={currencyBase}/>
+            <RateTable rate={rate} currencyBase={currencyBase} quantity={quantity} saveCurrencyBase={saveCurrencyBase}/>
         </div>
     );
 };
