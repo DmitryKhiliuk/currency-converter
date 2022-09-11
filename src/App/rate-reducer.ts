@@ -14,6 +14,8 @@ export type RateResponseType = {
 
 }
 
+export type RateType = RateResponseType & {currencyBase: string}
+
 export const fetchRateTC = createAsyncThunk<RateResponseType>('rate/fetchRate', async(param, thunkAPI) => {
     const res = await rateAPI.getRate()
     try {
@@ -25,7 +27,12 @@ export const fetchRateTC = createAsyncThunk<RateResponseType>('rate/fetchRate', 
 
 export const slice = createSlice({
     name: 'rate',
-    initialState: {} as RateResponseType,
+    initialState: {
+        table: '',
+        rates: {},
+        lastupdate: ''
+
+} as RateResponseType,
     reducers: {},
     extraReducers: builder => {
         builder.addCase(fetchRateTC.fulfilled, (state, action) => {

@@ -1,28 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Input, InputNumber, Select} from "antd";
-import {fetchRateTC} from "../../App/rate-reducer";
-import {AppRootStateType, useAppDispatch, useAppSelector} from "../../App/store";
+import React, {useState} from 'react';
+import {Button, InputNumber, Select} from "antd";
+import {RateResponseType} from "../../App/rate-reducer";
 import {RateTable} from "./RateTable";
 import s from './Rate.module.css'
 import '../../flags.css'
 
+type RatePropsType = {
+    rate: RateResponseType
+}
 
-
-export const Rate = () => {
-
-    const dispatch = useAppDispatch();
-    const rate = useAppSelector((state) => state.rate)
+export const Rate = (props:RatePropsType) => {
 
     const [currencyBase, setCurrencyBase] = useState('USD')
     const [quantity, setQuantity] = useState(1)
-    let difference = new Date().getTime() - new Date(rate.lastupdate).getTime()
-    let defaultValue = currencyBase
 
-    useEffect(() => {
-        if (difference && difference > 14400000) {
-            dispatch(fetchRateTC())
-        }
-    }, [])
+
+    let defaultValue = currencyBase
 
     const {Option} = Select;
 
@@ -36,8 +29,11 @@ export const Rate = () => {
         setQuantity(value);
     };
 
-    const keys = Object.keys(rate.rates).filter(el => el.length === 3)
-    const currencyCode = ['USD', 'EUR', 'GBP', 'PLN', 'CHF', 'BYN'].concat(keys.filter(el => el!=='USD'&&el!=='EUR'&&el!=='GBP'&&el!=='PLN'&&el!=='CHF'&&el!=='BYN')) // placing elements in main positions
+
+    const curKeys = Object.keys(props.rate.rates).filter(el => el.length === 3)
+
+    const currencyMain = ['USD', 'EUR', 'GBP', 'PLN', 'CHF']
+    const currencyCode = currencyMain.concat(curKeys.filter(el => el!=='USD'&&el!=='EUR'&&el!=='GBP'&&el!=='PLN'&&el!=='CHF')) // placing elements in main positions
 
 
     const saveCurrencyBase = (text:string) => {
@@ -78,7 +74,7 @@ export const Rate = () => {
                     <Button type="primary" onClick={onClickHandler}>Apply</Button>
                 </div>
             </div>
-            <RateTable rate={rate} currencyBase={currencyBase} quantity={quantity} saveCurrencyBase={saveCurrencyBase}/>
+            <RateTable rate={props.rate} currencyBase={currencyBase} quantity={quantity} saveCurrencyBase={saveCurrencyBase}/>
         </div>
     );
 };
