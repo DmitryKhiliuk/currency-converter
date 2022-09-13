@@ -1,12 +1,28 @@
-import React from 'react';
-import {Button, Card, Dropdown, Input, Menu, Typography} from "antd";
-import s from './InputBox.module.css'
+import React, {ChangeEventHandler, useState} from 'react';
+import {Button, Card, Dropdown, Input, InputNumber, Menu, Typography} from "antd";
+import {changeCurrencyBaseAC} from "../../../App/rate-reducer";
+import {useAppDispatch, useAppSelector} from "../../../App/store";
 
-export const InputBox = () => {
+
+type InputBoxPropsType = {
+    currencyMain: string[]
+    activeButton: string
+    callBackButton: (value:string) => void
+    inputValue: number
+}
+
+
+export const InputBox = (props:InputBoxPropsType) => {
+
+
 
     const onMenuClick = (e: any) => {
         console.log('click', e);
     };
+
+    const onClickHandler = (value: string) => {
+       props.callBackButton(value)
+    }
 
     const menu = (
         <Menu
@@ -30,15 +46,12 @@ export const InputBox = () => {
     return (
         <div>
             <div>
-                <Button size={'large'}>USD</Button>
-                <Button size={'large'}>EUR</Button>
-                <Button size={'large'}>GBR</Button>
-                <Button size={'large'}>CHF</Button>
-                <Dropdown.Button size={'large'} overlay={menu}>PLN</Dropdown.Button>
+                {props.currencyMain.map((el, index) => <Button key={index} size={'large'} onClick={() => onClickHandler(el)} type={el === props.activeButton ? 'primary': 'default'}>{el}</Button>)}
+                <Dropdown.Button size={'large'} overlay={menu}>BYN</Dropdown.Button>
             </div>
             <div>
                 <Card style={{width: '400px', textAlign: 'center'}} hoverable={true}>
-                    <Input placeholder="Basic usage" />
+                    <InputNumber min={1} defaultValue={1} value={props.inputValue}/>
                     <Typography.Text type="secondary">Ant Design (secondary)</Typography.Text>
                 </Card>
             </div>

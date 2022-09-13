@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {rateAPI} from "../Api/api";
 
 export type RatesType = {
@@ -30,15 +30,24 @@ export const slice = createSlice({
     initialState: {
         table: '',
         rates: {},
-        lastupdate: ''
+        lastupdate: '',
+        currencyBase: ''
 
-} as RateResponseType,
-    reducers: {},
+} as RateType,
+    reducers: {
+        changeCurrencyBaseAC(state, action:PayloadAction<{currencyBase: string}>) {
+            state.currencyBase = action.payload.currencyBase
+        }
+    },
     extraReducers: builder => {
         builder.addCase(fetchRateTC.fulfilled, (state, action) => {
-            return action.payload
+            return {...action.payload, currencyBase: 'USD'}
         })
     }
 })
 
+
+export const {
+    changeCurrencyBaseAC
+} = slice.actions
 export const rateReducer = slice.reducer

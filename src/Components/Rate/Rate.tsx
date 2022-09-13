@@ -1,19 +1,26 @@
-import React, {useState} from 'react';
-import {Button, InputNumber, Select} from "antd";
-import {RateResponseType} from "../../App/rate-reducer";
+import React, {DetailedHTMLProps, Dispatch, HTMLAttributes, SetStateAction, useState} from 'react';
+import {Button, InputNumber, Select, Typography} from "antd";
+import {changeCurrencyBaseAC, RateResponseType} from "../../App/rate-reducer";
 import {RateTable} from "./RateTable";
 import s from './Rate.module.css'
 import '../../flags.css'
+import {useAppDispatch, useAppSelector} from "../../App/store";
 
 type RatePropsType = {
     rate: RateResponseType
+    currencyMain: string[]
+    currencyCode: string[]
+    quantity: number
+    setQuantity: Dispatch<SetStateAction<number>>
 }
 
 export const Rate = (props:RatePropsType) => {
 
-    const [currencyBase, setCurrencyBase] = useState('USD')
-    const [quantity, setQuantity] = useState(1)
+    const dispatch = useAppDispatch();
+    const currencyBase = useAppSelector((state) => state.rate.currencyBase)
+    const lastUpdate = useAppSelector((state) => state.rate.lastupdate)
 
+    let lastUpdateData= new Date(lastUpdate)
 
     let defaultValue = currencyBase
 
@@ -21,23 +28,17 @@ export const Rate = (props:RatePropsType) => {
 
 
     console.log(currencyBase)
-    const handleChange = (value: any) => {
-        setCurrencyBase(value)
+    const handleChange = (currencyBase: string) => {
+        dispatch(changeCurrencyBaseAC({currencyBase}))
     };
 
     const onChange = (value: number) => {
-        setQuantity(value);
+        props.setQuantity(value);
     };
 
 
-    const curKeys = Object.keys(props.rate.rates).filter(el => el.length === 3)
-
-    const currencyMain = ['USD', 'EUR', 'GBP', 'PLN', 'CHF']
-    const currencyCode = currencyMain.concat(curKeys.filter(el => el!=='USD'&&el!=='EUR'&&el!=='GBP'&&el!=='PLN'&&el!=='CHF')) // placing elements in main positions
-
-
-    const saveCurrencyBase = (text:string) => {
-        setCurrencyBase(text)
+    const saveCurrencyBase = (currencyBase:string) => {
+        dispatch(changeCurrencyBaseAC({currencyBase}))
 
 
     }
@@ -57,7 +58,7 @@ export const Rate = (props:RatePropsType) => {
                             }}
                             onChange={handleChange}
                         >
-                            {currencyCode.map((el, index) => <Option key={index} value={el}>{new Intl.NumberFormat("en", {
+                            {props.currencyCode.map((el, index) => <Option key={index} value={el}>{new Intl.NumberFormat("en", {
                                 style: "currency",
                                 currency: el,
                                 currencyDisplay: "name",
@@ -74,7 +75,8 @@ export const Rate = (props:RatePropsType) => {
                     <Button type="primary" onClick={onClickHandler}>Apply</Button>
                 </div>
             </div>
-            <RateTable rate={props.rate} currencyBase={currencyBase} quantity={quantity} saveCurrencyBase={saveCurrencyBase}/>
+            <RateTable rate={props.rate} currencyBase={currencyBase} quantity={props.quantity} saveCurrencyBase={saveCurrencyBase}/>
+            <div>{String(lastUpdateData)}</div>
         </div>
     );
 };
