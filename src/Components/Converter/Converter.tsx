@@ -9,6 +9,7 @@ import {useDebounce} from "../../hooks";
 type ConverterType = {
     currencyCode: string[]
     currencyMain: string[]
+    currencyAncillary: string[]
     quantity: number
     setQuantity: Dispatch<SetStateAction<number>>
 }
@@ -21,8 +22,6 @@ export const Converter = (props:ConverterType) => {
     const [currencySelected, setCurrencySelected] = useState('USD')
     const [inputValueMain, setInputValueMain] = useState(1)
     const [inputValueSelected, setInputValueSelected] = useState(1)
-    const currencyRate = rates[currencySelected]
-    const currencyBaseRate = rates[currencyBase]
 
 
     useEffect(() => {
@@ -51,8 +50,16 @@ export const Converter = (props:ConverterType) => {
 
     const changeCurrencySelected = (currencySelected:string) => {
         setCurrencySelected(currencySelected)
-        setInputValueMain(format(inputValueSelected * rates[currencyBase]/ rates[currencySelected]))
+        setInputValueSelected(format(inputValueMain * rates[currencySelected]/ rates[currencyBase]))
     }
+
+    let arrayItems:{ key: string, label: string }[] = []
+    props.currencyAncillary.map((el,index) => arrayItems.push({key: el, label: new Intl.NumberFormat("en", {
+            style: "currency",
+            currency: el,
+            currencyDisplay: "name",
+            minimumFractionDigits: 0
+        }).format(1).substring(1)}))
 
     return (
         <div className={s.content}>
@@ -62,7 +69,9 @@ export const Converter = (props:ConverterType) => {
                       inputValue={props.quantity}
                       inputHandler={inputMainHandler}
                       value={inputValueMain}
-                      valueButton={currencyBase}/>
+                      arrayItems={arrayItems}
+
+                      />
 
             <InputBox currencyMain={props.currencyMain}
                       activeButton={currencySelected}
@@ -70,7 +79,9 @@ export const Converter = (props:ConverterType) => {
                       inputValue={1}
                       inputHandler={inputSelectedHandler}
                       value={inputValueSelected}
-                      valueButton={currencySelected}/>
+                      arrayItems={arrayItems}
+
+                      />
         </div>
     );
 };

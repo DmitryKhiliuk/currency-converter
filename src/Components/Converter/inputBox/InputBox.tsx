@@ -1,8 +1,6 @@
-import React, {ChangeEventHandler, useState} from 'react';
-import {Button, Card, Dropdown, Input, InputNumber, Menu, Typography} from "antd";
+import React, {useState} from 'react';
+import {Button, Card, Dropdown, InputNumber, Menu, Typography} from "antd";
 import s from './InputBox.module.css'
-import {changeCurrencyBaseAC} from "../../../App/rate-reducer";
-import {useAppDispatch, useAppSelector} from "../../../App/store";
 
 
 type InputBoxPropsType = {
@@ -12,12 +10,18 @@ type InputBoxPropsType = {
     inputValue: number
     inputHandler: (value:number) => void
     value: number
-    valueButton: string
+    arrayItems: { key: string, label: string }[]
+
 }
 
 
 export const InputBox = (props:InputBoxPropsType) => {
+
+    let [nameDropdownButton, setNameDropdownButton] = useState('CZK')
+
     const onMenuClick = (e: any) => {
+        setNameDropdownButton(e.key)
+        props.callBackButton(e.key)
         console.log('click', e);
     };
 
@@ -33,20 +37,8 @@ export const InputBox = (props:InputBoxPropsType) => {
     const menu = (
         <Menu
             onClick={onMenuClick}
-            items={[
-                {
-                    key: '1',
-                    label: '1st item',
-                },
-                {
-                    key: '2',
-                    label: '2nd item',
-                },
-                {
-                    key: '3',
-                    label: '3rd item',
-                },
-            ]}
+            items={props.arrayItems}
+            style={{height: '200px', overflowY: 'scroll'}}
         />
     );
 
@@ -54,8 +46,8 @@ export const InputBox = (props:InputBoxPropsType) => {
     return (
         <div>
             <div>
-                {props.currencyMain.map((el, index) => <Button key={index} size={'large'} value={props.valueButton} onClick={() => onClickHandler(el)} type={el === props.activeButton ? 'primary': 'default'}>{el}</Button>)}
-                <Dropdown.Button size={'large'} overlay={menu}>BYN</Dropdown.Button>
+                {props.currencyMain.map((el, index) => <Button key={index} size={'large'}  onClick={() => onClickHandler(el)} type={el === props.activeButton ? 'primary': 'default'}>{el}</Button>)}
+                <Dropdown.Button size={'large'} overlay={menu} type={nameDropdownButton === props.activeButton ? 'primary': 'default'}>{nameDropdownButton}</Dropdown.Button>
             </div>
             <div>
                 <Card style={{width: '400px', textAlign: 'center'}} hoverable={true}>

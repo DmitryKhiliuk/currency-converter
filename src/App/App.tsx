@@ -17,7 +17,8 @@ function App() {
     let difference = new Date().getTime() - new Date(rate.lastupdate).getTime()
     const currencyMain = ['USD', 'EUR', 'GBP', 'PLN', 'CHF']
     const curKeys = Object.keys(rate.rates).filter(el => el.length === 3)
-    const currencyCode = currencyMain.concat(curKeys.filter(el => el!=='USD'&&el!=='EUR'&&el!=='GBP'&&el!=='PLN'&&el!=='CHF')) // placing elements in main positions
+    const currencyAncillary = curKeys.filter(el => el!=='USD'&&el!=='EUR'&&el!=='GBP'&&el!=='PLN'&&el!=='CHF')
+    const currencyCode = currencyMain.concat(currencyAncillary) // placing elements in main positions
 
     console.log(difference)
     console.log(difference > 14400000)
@@ -34,8 +35,16 @@ function App() {
         <div className={s.appStyle}>
             <Navigation/>
             <Routes>
-                <Route path={'/rate'} element={<Rate rate={rate} currencyMain={currencyMain} currencyCode={currencyCode} quantity={quantity} setQuantity={setQuantity}/>}/>
-                <Route path={'/'} element={<Converter currencyMain={currencyMain} currencyCode={currencyCode} quantity={quantity} setQuantity={setQuantity}/>}/>
+                <Route path={'/rate'} element={<Rate rate={rate}
+                                                     currencyMain={currencyMain}
+                                                     currencyCode={currencyCode}
+                                                     quantity={quantity}
+                                                     setQuantity={setQuantity}/>}/>
+                <Route path={'/'} element={<Converter currencyMain={currencyMain}
+                                                      currencyCode={currencyCode}
+                                                      currencyAncillary={currencyAncillary}
+                                                      quantity={quantity}
+                                                      setQuantity={setQuantity}/>}/>
             </Routes>
 
         </div>
