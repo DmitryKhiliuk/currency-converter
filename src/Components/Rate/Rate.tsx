@@ -14,6 +14,8 @@ type RatePropsType = {
     setQuantity: Dispatch<SetStateAction<number>>
 }
 
+const { Title } = Typography;
+
 export const Rate = (props:RatePropsType) => {
 
     const dispatch = useAppDispatch();
@@ -36,15 +38,10 @@ export const Rate = (props:RatePropsType) => {
         props.setQuantity(value);
     };
 
-
     const saveCurrencyBase = (currencyBase:string) => {
         dispatch(changeCurrencyBaseAC({currencyBase}))
-
-
     }
-    const onClickHandler = () => {
 
-    }
     return (
         <div className={s.rate}>
             <div className={s.control}>
@@ -54,7 +51,7 @@ export const Rate = (props:RatePropsType) => {
                         <Select
                             value={defaultValue}
                             style={{
-                                width: 120,
+                                width: 250,
                             }}
                             onChange={handleChange}
                         >
@@ -71,12 +68,10 @@ export const Rate = (props:RatePropsType) => {
                     <div>Quantity</div>
                     <InputNumber min={1} defaultValue={1} onChange={onChange}/>
                 </div>
-                <div>
-                    <Button type="primary" onClick={onClickHandler}>Apply</Button>
-                </div>
             </div>
             <RateTable rate={props.rate} currencyBase={currencyBase} quantity={props.quantity} saveCurrencyBase={saveCurrencyBase}/>
-            <div>{String(lastUpdateData)}</div>
+            <Title level={5} style={{display: 'inline'}}>Last update</Title>
+            <span>{' ' + String(lastUpdateData)}</span>
         </div>
     );
 };

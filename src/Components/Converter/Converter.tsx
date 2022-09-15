@@ -4,6 +4,7 @@ import s from './Converter.module.css'
 import {changeCurrencyBaseAC, RateResponseType} from "../../App/rate-reducer";
 import {useAppDispatch, useAppSelector} from "../../App/store";
 import {useDebounce} from "../../hooks";
+import {format} from "../../utils/utils";
 
 
 type ConverterType = {
@@ -27,10 +28,6 @@ export const Converter = (props:ConverterType) => {
     useEffect(() => {
         setInputValueSelected(format(inputValueMain * rates[currencySelected]/ rates[currencyBase]))
     }, [])
-
-
-    const format = (number: number) => +number.toFixed(2)
-
 
     const inputMainHandler = (value: number) => {
         setInputValueSelected(format(value * rates[currencySelected]/rates[currencyBase]))

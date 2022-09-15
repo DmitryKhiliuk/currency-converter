@@ -3,6 +3,8 @@ import 'antd/dist/antd.css';
 import '../../index.css';
 import {Table} from 'antd';
 import {RateResponseType} from "../../App/rate-reducer";
+import {ColumnGroupType, ColumnType} from "antd/es/table";
+import {format} from "../../utils/utils";
 
 
 type RateTableType = {
@@ -20,33 +22,43 @@ export const RateTable = (props: RateTableType) => {
     }
 
 
-    const columns = [
+    const columns:(ColumnGroupType<DataItemType> | ColumnType<DataItemType>)[] = [
         {
             title: 'Currency Name',
             dataIndex: 'currencyName',
             key: 'currencyName',
+            defaultSortOrder: 'descend',
+            sorter: (a, b) => a.currencyName > b.currencyName ? 1 : -1,
             render: (text: string, record: any) => <a onClick={() => handler(record.currencyCode)}>{text}</a>,
+            width: '30%',
         },
         {
             title: 'Currency Code',
             dataIndex: 'currencyCode',
             key: 'currencyCode',
-            render: (text: string) => <a onClick={() => handler(text)}>{text}</a>
+            sorter: (a, b) => a.currencyCode > b.currencyCode ? 1 : -1,
+            render: (text: string) => <a onClick={() => handler(text)}>{text}</a>,
+            width: '20%',
 
 
         },
         {
             title: 'Amount',
             dataIndex: 'amount',
+            sorter: (a, b) => a.amount - b.amount,
             key: 'amount',
+            width: '25%',
         },
         {
             title: 'Sum',
             dataIndex: 'sum',
+            sorter: (a, b) => a.sum - b.sum,
             key: 'sum',
+            width: '25%',
         },
 
     ];
+
 
 
     let data: DataType = []
@@ -71,8 +83,8 @@ export const RateTable = (props: RateTableType) => {
                 minimumFractionDigits: 0
             }).format(1).substring(1)
             dataItem.currencyCode = el
-            dataItem.amount = props.rate.rates[el] / props.rate.rates[props.currencyBase]
-            dataItem.sum = (props.rate.rates[el] / props.rate.rates[props.currencyBase]) * props.quantity
+            dataItem.amount = format(props.rate.rates[el] / props.rate.rates[props.currencyBase])
+            dataItem.sum = format((props.rate.rates[el] / props.rate.rates[props.currencyBase]) * props.quantity)
             return data.push(dataItem)
         }
 
@@ -82,7 +94,7 @@ export const RateTable = (props: RateTableType) => {
         <div>
             <Table columns={columns}
                    dataSource={data}
-                   />;
+                   />
         </div>
 
     )

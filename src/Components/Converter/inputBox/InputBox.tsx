@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Card, Dropdown, InputNumber, Menu, Typography} from "antd";
 import s from './InputBox.module.css'
+import {DownOutlined, EllipsisOutlined} from "@ant-design/icons";
 
 
 type InputBoxPropsType = {
@@ -18,6 +19,10 @@ type InputBoxPropsType = {
 export const InputBox = (props:InputBoxPropsType) => {
 
     let [nameDropdownButton, setNameDropdownButton] = useState('CZK')
+
+    useEffect(() =>{
+
+    }, [])
 
     const onMenuClick = (e: any) => {
         setNameDropdownButton(e.key)
@@ -47,7 +52,8 @@ export const InputBox = (props:InputBoxPropsType) => {
         <div>
             <div>
                 {props.currencyMain.map((el, index) => <Button key={index} size={'large'}  onClick={() => onClickHandler(el)} type={el === props.activeButton ? 'primary': 'default'}>{el}</Button>)}
-                <Dropdown.Button size={'large'} overlay={menu} type={nameDropdownButton === props.activeButton ? 'primary': 'default'}>{nameDropdownButton}</Dropdown.Button>
+                <Button size={'large'} type={nameDropdownButton === props.activeButton ? 'primary': 'default'}>{nameDropdownButton}</Button>
+                <Dropdown overlay={menu}><Button size={'large'}><EllipsisOutlined /></Button></Dropdown>
             </div>
             <div>
                 <Card style={{width: '400px', textAlign: 'center'}} hoverable={true}>

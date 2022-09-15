@@ -1,0 +1,1 @@
+export const format = (number: number) => +number.toFixed(4)
