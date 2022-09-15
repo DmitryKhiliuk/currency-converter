@@ -20,14 +20,16 @@ function App() {
     const currencyCode = currencyMain.concat(curKeys.filter(el => el!=='USD'&&el!=='EUR'&&el!=='GBP'&&el!=='PLN'&&el!=='CHF')) // placing elements in main positions
 
     console.log(difference)
-    console.log(new Date(rate.lastupdate))
+    console.log(difference > 14400000)
 
     useEffect(() => {
-        if (!Object.keys(rate.rates).length || difference && difference > 14400000) {
+        if (!Object.keys(rate.rates).length /*|| difference > 14400000*/) {
             dispatch(fetchRateTC())
             console.log('fetch')
         }
     }, [])
+
+
     return (
         <div className={s.appStyle}>
             <Navigation/>
