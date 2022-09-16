@@ -91,7 +91,7 @@ export const RateTable = (props: RateTableType) => {
 
     })
     return (
-        <div>
+        <div style={{color: 'red'}}>
             <Table columns={columns}
                    dataSource={data}
                    />

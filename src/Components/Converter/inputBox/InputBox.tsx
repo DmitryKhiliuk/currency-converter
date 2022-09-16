@@ -21,13 +21,14 @@ export const InputBox = (props:InputBoxPropsType) => {
     let [nameDropdownButton, setNameDropdownButton] = useState('CZK')
 
     useEffect(() =>{
-
+        if (!props.currencyMain.find(el => el === props.activeButton)) {
+            setNameDropdownButton(props.activeButton)
+        }
     }, [])
 
     const onMenuClick = (e: any) => {
         setNameDropdownButton(e.key)
         props.callBackButton(e.key)
-        console.log('click', e);
     };
 
     const onClickHandler = (value: string) => {
@@ -52,7 +53,7 @@ export const InputBox = (props:InputBoxPropsType) => {
         <div>
             <div>
                 {props.currencyMain.map((el, index) => <Button key={index} size={'large'}  onClick={() => onClickHandler(el)} type={el === props.activeButton ? 'primary': 'default'}>{el}</Button>)}
-                <Button size={'large'} type={nameDropdownButton === props.activeButton ? 'primary': 'default'}>{nameDropdownButton}</Button>
+                <Button size={'large'} onClick={() => onClickHandler(nameDropdownButton)} type={nameDropdownButton === props.activeButton ? 'primary': 'default'}>{nameDropdownButton}</Button>
                 <Dropdown overlay={menu}><Button size={'large'}><EllipsisOutlined /></Button></Dropdown>
             </div>
             <div>

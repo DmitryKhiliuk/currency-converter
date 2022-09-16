@@ -1,0 +1,14 @@
+.navigation {
+    width: 300px;
+    margin: 30px auto;
+    display: flex;
+    justify-content: space-between;
+}
+.button {
+    width: 100px;
+}
+
+.active {
+    text-decoration: underline;
+}
+
