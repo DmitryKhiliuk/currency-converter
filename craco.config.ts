@@ -16,7 +16,7 @@ module.exports = {
                             '@component-background': '#24163a',
                             '@table-header-bg': '#24163a',
                             '@table-row-hover-bg': '#301c4d',
-                            '@table-selected-row-bg': '#301c4d'
+                            '@table-header-sort-bg': '#301c4d'
                         },
                         javascriptEnabled: true,
                     },

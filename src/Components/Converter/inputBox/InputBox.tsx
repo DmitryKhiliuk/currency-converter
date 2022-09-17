@@ -7,11 +7,13 @@ import {EllipsisOutlined} from "@ant-design/icons";
 type InputBoxPropsType = {
     currencyMain: string[]
     activeButton: string
+    oppositeButton: string
     callBackButton: (value:string) => void
     inputValue: number
     inputHandler: (value:number) => void
     value: number
     arrayItems: { key: string, label: string }[]
+    rateForBox: number
 
 }
 
@@ -59,9 +61,15 @@ export const InputBox = (props:InputBoxPropsType) => {
                 </div>
                 <div>
                     <Card style={{width: '100%', textAlign: 'center', marginTop: '10px'}} hoverable={true}>
-                        <InputNumber min={0} defaultValue={1} onChange={onChange} value={props.value} className={s.input}/>
-                        <Typography.Text type="secondary">Ant Design (secondary)</Typography.Text>
+                        <InputNumber min={0}
+                                     defaultValue={1}
+                                     onChange={onChange}
+                                     value={props.value}
+                                     className={s.input}
+                                     bordered={false}
+                        style={{ width: '100%', fontSize: '32px'}}/>
                     </Card>
+                    <Typography.Text type="secondary">{'1' + props.activeButton + ' ' + '=' + ' ' + props.rateForBox + ' ' + props.oppositeButton}</Typography.Text>
                 </div>
             </Card>
         </div>

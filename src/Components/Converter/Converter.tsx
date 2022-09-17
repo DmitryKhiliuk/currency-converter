@@ -58,25 +58,31 @@ export const Converter = (props:ConverterType) => {
             minimumFractionDigits: 0
         }).format(1).substring(1)}))
 
+    const rateForBoxMain = format(rates[currencySelected]/rates[currencyBase])
+    const rateForBoxSelected = format(1/rates[currencySelected]/rates[currencyBase])
+
     return (
         <div className={s.content}>
             <InputBox currencyMain={props.currencyMain}
                       activeButton={currencyBase}
+                      oppositeButton={currencySelected}
                       callBackButton={changeCurrencyBase}
                       inputValue={props.quantity}
                       inputHandler={inputMainHandler}
                       value={inputValueMain}
                       arrayItems={arrayItems}
-
+                      rateForBox={rateForBoxMain}
                       />
 
             <InputBox currencyMain={props.currencyMain}
                       activeButton={currencySelected}
+                      oppositeButton={currencyBase}
                       callBackButton={changeCurrencySelected}
                       inputValue={1}
                       inputHandler={inputSelectedHandler}
                       value={inputValueSelected}
                       arrayItems={arrayItems}
+                      rateForBox={rateForBoxSelected}
 
                       />
         </div>
