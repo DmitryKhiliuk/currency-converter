@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Card, Dropdown, InputNumber, Menu, Typography} from "antd";
 import s from './InputBox.module.css'
-import {DownOutlined, EllipsisOutlined} from "@ant-design/icons";
+import {EllipsisOutlined} from "@ant-design/icons";
 
 
 type InputBoxPropsType = {
@@ -51,17 +51,19 @@ export const InputBox = (props:InputBoxPropsType) => {
     console.log(props.value)
     return (
         <div>
-            <div>
-                {props.currencyMain.map((el, index) => <Button key={index} size={'large'}  onClick={() => onClickHandler(el)} type={el === props.activeButton ? 'primary': 'default'}>{el}</Button>)}
-                <Button size={'large'} onClick={() => onClickHandler(nameDropdownButton)} type={nameDropdownButton === props.activeButton ? 'primary': 'default'}>{nameDropdownButton}</Button>
-                <Dropdown overlay={menu}><Button size={'large'}><EllipsisOutlined /></Button></Dropdown>
-            </div>
-            <div>
-                <Card style={{width: '400px', textAlign: 'center'}} hoverable={true}>
-                    <InputNumber min={1} defaultValue={1} onChange={onChange} value={props.value} className={s.input}/>
-                    <Typography.Text type="secondary">Ant Design (secondary)</Typography.Text>
-                </Card>
-            </div>
+            <Card>
+                <div>
+                    {props.currencyMain.map((el, index) => <Button key={index} size={'large'}  onClick={() => onClickHandler(el)} type={el === props.activeButton ? 'primary': 'default'}>{el}</Button>)}
+                    <Button size={'large'} onClick={() => onClickHandler(nameDropdownButton)} type={nameDropdownButton === props.activeButton ? 'primary': 'default'}>{nameDropdownButton}</Button>
+                    <Dropdown overlay={menu}><Button size={'large'}><EllipsisOutlined /></Button></Dropdown>
+                </div>
+                <div>
+                    <Card style={{width: '100%', textAlign: 'center', marginTop: '10px'}} hoverable={true}>
+                        <InputNumber min={0} defaultValue={1} onChange={onChange} value={props.value} className={s.input}/>
+                        <Typography.Text type="secondary">Ant Design (secondary)</Typography.Text>
+                    </Card>
+                </div>
+            </Card>
         </div>
     );
 };

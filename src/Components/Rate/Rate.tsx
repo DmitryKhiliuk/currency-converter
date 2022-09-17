@@ -1,5 +1,5 @@
-import React, {DetailedHTMLProps, Dispatch, HTMLAttributes, SetStateAction, useState} from 'react';
-import {Button, InputNumber, Select, Typography} from "antd";
+import React, {Dispatch, SetStateAction} from 'react';
+import {InputNumber, Select, Typography} from "antd";
 import {changeCurrencyBaseAC, RateResponseType} from "../../App/rate-reducer";
 import {RateTable} from "./RateTable";
 import s from './Rate.module.css'
@@ -71,7 +71,7 @@ export const Rate = (props:RatePropsType) => {
             </div>
             <RateTable rate={props.rate} currencyBase={currencyBase} quantity={props.quantity} saveCurrencyBase={saveCurrencyBase}/>
             <Title level={5} style={{display: 'inline'}}>Last update</Title>
-            <span>{' ' + String(lastUpdateData)}</span>
+            <span>{': ' + String(lastUpdateData)}</span>
         </div>
     );
 };

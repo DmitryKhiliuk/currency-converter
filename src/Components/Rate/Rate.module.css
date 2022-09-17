@@ -3,7 +3,7 @@
 }
 .control {
     max-width: 40%;
-    margin: 0 auto;
+    margin: 0 auto 50px auto;
     display: flex;
     justify-content: space-around;
     align-items: flex-end;

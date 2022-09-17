@@ -4,6 +4,7 @@ import {Converter} from "../Components/Converter/Converter";
 import {Rate} from "../Components/Rate/Rate";
 import {Navigation} from "../Components/Navigation/Navigation";
 import s from './App.module.css'
+import './App.less';
 import {useAppDispatch, useAppSelector} from "./store";
 import {fetchRateTC} from "./rate-reducer";
 
