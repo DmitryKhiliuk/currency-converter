@@ -7,10 +7,11 @@ import s from './App.module.css'
 import './App.less';
 import {useAppDispatch, useAppSelector} from "./store";
 import {fetchRateTC} from "./rate-reducer";
+import {selectRate} from "./selectors";
 
 function App() {
 
-    const rate = useAppSelector((state) => state.rate)
+    const rate = useAppSelector(selectRate)
     const dispatch = useAppDispatch();
 
     const [quantity, setQuantity] = useState(1)
@@ -25,7 +26,7 @@ function App() {
     console.log(difference > 14400000)
 
     useEffect(() => {
-        if (!Object.keys(rate.rates).length || difference > 14400000) {
+        if (!Object.keys(rate.rates).length /*|| difference > 14400000*/) {
             dispatch(fetchRateTC())
             console.log('fetch')
         }
@@ -36,8 +37,7 @@ function App() {
         <div className={s.appStyle}>
             <Navigation/>
             <Routes>
-                <Route path={'/rate'} element={<Rate rate={rate}
-                                                     currencyMain={currencyMain}
+                <Route path={'/rate'} element={<Rate currencyMain={currencyMain}
                                                      currencyCode={currencyCode}
                                                      quantity={quantity}
                                                      setQuantity={setQuantity}/>}/>

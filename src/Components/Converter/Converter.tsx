@@ -4,6 +4,7 @@ import s from './Converter.module.css'
 import {changeCurrencyBaseAC} from "../../App/rate-reducer";
 import {useAppDispatch, useAppSelector} from "../../App/store";
 import {format} from "../../utils/utils";
+import {selectRate} from "../../App/selectors";
 
 
 type ConverterType = {
@@ -16,8 +17,9 @@ type ConverterType = {
 
 export const Converter = (props:ConverterType) => {
 
-    const currencyBase = useAppSelector((state) => state.rate.currencyBase)
-    const rates = useAppSelector((state) => state.rate.rates)
+    const rate = useAppSelector(selectRate)
+    const currencyBase = rate.currencyBase
+    const rates = rate.rates
     const dispatch = useAppDispatch();
     const [currencySelected, setCurrencySelected] = useState('USD')
     const [inputValueMain, setInputValueMain] = useState(1)

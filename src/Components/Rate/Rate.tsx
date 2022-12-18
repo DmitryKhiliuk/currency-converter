@@ -5,9 +5,9 @@ import {RateTable} from "./RateTable";
 import s from './Rate.module.css'
 import '../../flags.css'
 import {useAppDispatch, useAppSelector} from "../../App/store";
+import {selectRate} from "../../App/selectors";
 
 type RatePropsType = {
-    rate: RateType
     currencyMain: string[]
     currencyCode: string[]
     quantity: number
@@ -19,8 +19,9 @@ const { Title } = Typography;
 export const Rate = (props:RatePropsType) => {
 
     const dispatch = useAppDispatch();
-    const currencyBase = useAppSelector((state) => state.rate.currencyBase)
-    const lastUpdate = useAppSelector((state) => state.rate.timestamp)
+    const rate = useAppSelector(selectRate)
+    const currencyBase = rate.currencyBase
+    const lastUpdate = rate.timestamp
 
     let lastUpdateData = new Date(+(lastUpdate + '000'))
 
@@ -67,7 +68,7 @@ export const Rate = (props:RatePropsType) => {
                     <InputNumber min={1} defaultValue={1} onChange={onChange}/>
                 </div>
             </div>
-            <RateTable rate={props.rate} currencyBase={currencyBase} quantity={props.quantity} saveCurrencyBase={saveCurrencyBase}/>
+            <RateTable rate={rate} currencyBase={currencyBase} quantity={props.quantity} saveCurrencyBase={saveCurrencyBase}/>
             <Title level={5} style={{display: 'inline'}}>Last update</Title>
             <span>{': ' + lastUpdateData}</span>
         </div>
