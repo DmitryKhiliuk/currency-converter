@@ -15,7 +15,7 @@ function App() {
 
     const [quantity, setQuantity] = useState(1)
 
-    let difference = new Date().getTime() - new Date(rate.lastupdate).getTime()
+    let difference = new Date().getTime() - +(rate.timestamp + '000')
     const currencyMain = ['USD', 'EUR', 'GBP', 'PLN', 'CHF']
     const curKeys = Object.keys(rate.rates).filter(el => el.length === 3)
     const currencyAncillary = curKeys.filter(el => el!=='USD'&&el!=='EUR'&&el!=='GBP'&&el!=='PLN'&&el!=='CHF')
@@ -25,7 +25,7 @@ function App() {
     console.log(difference > 14400000)
 
     useEffect(() => {
-        if (!Object.keys(rate.rates).length /*|| difference > 14400000*/) {
+        if (!Object.keys(rate.rates).length || difference > 14400000) {
             dispatch(fetchRateTC())
             console.log('fetch')
         }

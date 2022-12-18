@@ -2,13 +2,13 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import {Table} from 'antd';
-import {RateResponseType} from "../../App/rate-reducer";
 import {ColumnGroupType, ColumnType} from "antd/es/table";
 import {format} from "../../utils/utils";
+import {RateType} from "../../App/rate-reducer";
 
 
 type RateTableType = {
-    rate: RateResponseType
+    rate: RateType
     currencyBase: string
     quantity: number
     saveCurrencyBase: (text:string) => void

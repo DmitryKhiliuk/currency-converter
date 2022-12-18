@@ -1,13 +1,13 @@
 import React, {Dispatch, SetStateAction} from 'react';
 import {InputNumber, Select, Typography} from "antd";
-import {changeCurrencyBaseAC, RateResponseType} from "../../App/rate-reducer";
+import {changeCurrencyBaseAC, RateType} from "../../App/rate-reducer";
 import {RateTable} from "./RateTable";
 import s from './Rate.module.css'
 import '../../flags.css'
 import {useAppDispatch, useAppSelector} from "../../App/store";
 
 type RatePropsType = {
-    rate: RateResponseType
+    rate: RateType
     currencyMain: string[]
     currencyCode: string[]
     quantity: number
@@ -20,16 +20,14 @@ export const Rate = (props:RatePropsType) => {
 
     const dispatch = useAppDispatch();
     const currencyBase = useAppSelector((state) => state.rate.currencyBase)
-    const lastUpdate = useAppSelector((state) => state.rate.lastupdate)
+    const lastUpdate = useAppSelector((state) => state.rate.timestamp)
 
-    let lastUpdateData= new Date(lastUpdate)
+    let lastUpdateData = new Date(+(lastUpdate + '000'))
 
     let defaultValue = currencyBase
 
     const {Option} = Select;
 
-
-    console.log(currencyBase)
     const handleChange = (currencyBase: string) => {
         dispatch(changeCurrencyBaseAC({currencyBase}))
     };
@@ -71,7 +69,7 @@ export const Rate = (props:RatePropsType) => {
             </div>
             <RateTable rate={props.rate} currencyBase={currencyBase} quantity={props.quantity} saveCurrencyBase={saveCurrencyBase}/>
             <Title level={5} style={{display: 'inline'}}>Last update</Title>
-            <span>{': ' + String(lastUpdateData)}</span>
+            <span>{': ' + lastUpdateData}</span>
         </div>
     );
 };

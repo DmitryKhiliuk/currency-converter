@@ -1,22 +1,17 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {rateAPI} from "../Api/api";
 
-export type RatesType = {
 
-}
-
-export type RateResponseType = {
-    table: string,
+export type RateType ={
+    timestamp: string,
+    base: string,
     rates: {
         [key:string]: number
     },
-    lastupdate: string
-
+    currencyBase: string
 }
 
-export type RateType = RateResponseType & {currencyBase: string}
-
-export const fetchRateTC = createAsyncThunk<RateResponseType>('rate/fetchRate', async(param, thunkAPI) => {
+export const fetchRateTC = createAsyncThunk('rate/fetchRate', async() => {
     const res = await rateAPI.getRate()
     try {
         return res.data
@@ -28,9 +23,8 @@ export const fetchRateTC = createAsyncThunk<RateResponseType>('rate/fetchRate', 
 export const slice = createSlice({
     name: 'rate',
     initialState: {
-        table: '',
         rates: {},
-        lastupdate: '',
+        timestamp: '',
         currencyBase: ''
 
 } as RateType,
@@ -41,7 +35,10 @@ export const slice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(fetchRateTC.fulfilled, (state, action) => {
-            return {...action.payload, currencyBase: 'USD'}
+            state.rates = action.payload!.rates
+            state.timestamp = action.payload!.timestamp
+            state.currencyBase = 'USD'
+            return state
         })
     }
 })

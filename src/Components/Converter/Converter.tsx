@@ -1,9 +1,8 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {InputBox} from "./inputBox/InputBox";
 import s from './Converter.module.css'
-import {changeCurrencyBaseAC, RateResponseType} from "../../App/rate-reducer";
+import {changeCurrencyBaseAC} from "../../App/rate-reducer";
 import {useAppDispatch, useAppSelector} from "../../App/store";
-import {useDebounce} from "../../hooks";
 import {format} from "../../utils/utils";
 
 
@@ -51,7 +50,7 @@ export const Converter = (props:ConverterType) => {
     }
 
     let arrayItems:{ key: string, label: string }[] = []
-    props.currencyAncillary.map((el,index) => arrayItems.push({key: el, label: new Intl.NumberFormat("en", {
+    props.currencyAncillary.map((el) => arrayItems.push({key: el, label: new Intl.NumberFormat("en", {
             style: "currency",
             currency: el,
             currencyDisplay: "name",
