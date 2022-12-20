@@ -22,9 +22,6 @@ function App() {
     const currencyAncillary = curKeys.filter(el => el!=='USD'&&el!=='EUR'&&el!=='GBP'&&el!=='PLN'&&el!=='CHF')
     const currencyCode = currencyMain.concat(currencyAncillary) // placing elements in main positions
 
-    console.log(difference)
-    console.log(difference > 14400000)
-
     useEffect(() => {
         if (!Object.keys(rate.rates).length /*|| difference > 14400000*/) {
             dispatch(fetchRateTC())

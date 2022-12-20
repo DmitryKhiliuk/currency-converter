@@ -3,8 +3,7 @@ import {rateAPI} from "../Api/api";
 
 
 export type RateType ={
-    timestamp: string,
-    base: string,
+    timestamp: number,
     rates: {
         [key:string]: number
     },
@@ -24,7 +23,7 @@ export const slice = createSlice({
     name: 'rate',
     initialState: {
         rates: {},
-        timestamp: '',
+        timestamp: 0,
         currencyBase: ''
 
 } as RateType,

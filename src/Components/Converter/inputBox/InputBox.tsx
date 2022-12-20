@@ -49,8 +49,6 @@ export const InputBox = (props:InputBoxPropsType) => {
             style={{height: '200px', overflowY: 'scroll'}}
         />
     );
-
-    console.log(props.value)
     return (
         <div>
             <Card>

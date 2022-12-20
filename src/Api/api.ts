@@ -16,7 +16,7 @@ export const rateAPI = {
 export type RateResponseType = {
     disclaimer: string,
     license: string,
-    timestamp: string,
+    timestamp: number,
     base: string,
         rates: {
         [key:string]: number
