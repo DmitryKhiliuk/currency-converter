@@ -6,8 +6,9 @@ import {Navigation} from "../Components/Navigation/Navigation";
 import s from './App.module.css'
 import './App.less';
 import {useAppDispatch, useAppSelector} from "./store";
-import {fetchRateTC} from "./rate-reducer";
+import {changeErrorStatusAC, fetchRateTC} from "./rate-reducer";
 import {selectRate} from "./selectors";
+import {Alert} from "antd";
 
 function App() {
 
@@ -22,16 +23,21 @@ function App() {
     const currencyAncillary = curKeys.filter(el => el!=='USD'&&el!=='EUR'&&el!=='GBP'&&el!=='PLN'&&el!=='CHF')
     const currencyCode = currencyMain.concat(currencyAncillary) // placing elements in main positions
 
+    const error = rate.error
+
     useEffect(() => {
         if (!Object.keys(rate.rates).length /*|| difference > 14400000*/) {
             dispatch(fetchRateTC())
             console.log('fetch')
+        } else {
+            dispatch(changeErrorStatusAC({error: false}))
         }
     }, [])
 
 
     return (
         <div className={s.appStyle}>
+            {error && <Alert message="Error" type="error" showIcon/>}
             <Navigation/>
             <Routes>
                 <Route path={'/rate'} element={<Rate currencyMain={currencyMain}

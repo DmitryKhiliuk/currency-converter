@@ -8,14 +8,15 @@ export type RateType ={
         [key:string]: number
     },
     currencyBase: string
+    error: boolean
 }
 
-export const fetchRateTC = createAsyncThunk('rate/fetchRate', async() => {
-    const res = await rateAPI.getRate()
+export const fetchRateTC = createAsyncThunk('rate/fetchRate', async(_, ThunkAPI) => {
     try {
+        const res = await rateAPI.getRate()
         return res.data
     } catch (error) {
-
+        ThunkAPI.dispatch(changeErrorStatusAC({error: true}))
     }
 })
 
@@ -24,12 +25,16 @@ export const slice = createSlice({
     initialState: {
         rates: {},
         timestamp: 0,
-        currencyBase: ''
+        currencyBase: '',
+        error: false
 
 } as RateType,
     reducers: {
         changeCurrencyBaseAC(state, action:PayloadAction<{currencyBase: string}>) {
             state.currencyBase = action.payload.currencyBase
+        },
+        changeErrorStatusAC(state, action:PayloadAction<{error: boolean}>) {
+            state.error = action.payload.error
         }
     },
     extraReducers: builder => {
@@ -44,6 +49,7 @@ export const slice = createSlice({
 
 
 export const {
-    changeCurrencyBaseAC
+    changeCurrencyBaseAC,
+    changeErrorStatusAC
 } = slice.actions
 export const rateReducer = slice.reducer

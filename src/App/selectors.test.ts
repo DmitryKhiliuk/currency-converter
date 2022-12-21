@@ -17,7 +17,8 @@ describe('selectors test', () => {
                     CHF:0.926
                 },
                 timestamp: 1671390002,
-                currencyBase: 'AFN'
+                currencyBase: 'AFN',
+                error: false
             }
         }
     })
