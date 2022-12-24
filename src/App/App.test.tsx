@@ -42,6 +42,7 @@ describe('app test', () => {
             }
         }
         mockedSelector.mockReturnValue(startState.rate)
+        mockedDispatch.mockReturnValue(jest.fn())
     })
     it('app render test', () => {
         const view = render(<MemoryRouter><App/></MemoryRouter>)
