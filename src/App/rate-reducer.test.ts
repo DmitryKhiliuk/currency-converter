@@ -7,8 +7,8 @@ import {AnyAction, configureStore, ThunkDispatch} from "@reduxjs/toolkit";
 
 
 
-//jest.mock("../Api/api")
-//const rateAPIMock = rateAPI as jest.Mocked<typeof rateAPI>
+jest.mock("../Api/api")
+const rateAPIMock = rateAPI as jest.Mocked<typeof rateAPI>
 
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -43,15 +43,20 @@ describe('reducer test', () => {
 
     it('should fethRateTC with resolved response', async () => {
 
-        //rateAPIMock.getRate.mockReturnValue(Promise.resolve(res))
-        mockedAxios.get.mockReturnValue(Promise.resolve(res))
+        // @ts-ignore
+        rateAPIMock.getRate.mockReturnValue({data: [res]})
+        //mockedAxios.get.mockReturnValue(Promise.resolve({data: [res]}))
         await thunk(dispatch, getState, {})
-        console.log(dispatch.mock.calls)
-        const {calls} = dispatch.mock
-        expect(calls).toHaveLength(3)
-        const [start,error, end] = calls
-        expect(start[0].type).toBe('rate/fetchRate/pending')
-        expect(end[0].type).toBe('rate/fetchRate/fulfilled')
+        expect(dispatch).toBeCalledTimes(2)
+        expect(rateAPIMock.getRate).toBeCalledTimes(1)
+        console.log(rateAPIMock.getRate.mock.results[0].value.data)
+        rateAPIMock.getRate.mock.results
+        //console.log(dispatch.mock.calls)
+        //const {calls} = dispatch.mock
+        //expect(calls).toHaveLength(2)
+        //const [start,error, end] = calls
+        //expect(start[0].type).toBe('rate/fetchRate/pending')
+        //expect(end[0].type).toBe('rate/fetchRate/fulfilled')
         //expect(mockedAxios.get).toBeCalledTimes(1)
 
     })
