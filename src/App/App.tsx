@@ -28,7 +28,6 @@ function App() {
     useEffect(() => {
         if (!Object.keys(rate.rates).length /*|| difference > 14400000*/) {
             dispatch(fetchRateTC())
-            console.log('fetch')
         } else {
             dispatch(changeErrorStatusAC({error: false}))
         }
