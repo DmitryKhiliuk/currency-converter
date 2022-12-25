@@ -1,10 +1,5 @@
-import React from 'react';
-import axios, {AxiosResponse} from "axios";
-import {RateResponseType} from "../Api/api";
-import {changeCurrencyBaseAC, changeErrorStatusAC, fetchRateTC, rateReducer, RateType} from "./rate-reducer";
 import {rateAPI} from "../Api/api";
-import {AnyAction, configureStore, ThunkDispatch} from "@reduxjs/toolkit";
-
+import {changeCurrencyBaseAC, changeErrorStatusAC, fetchRateTC, rateReducer, RateType} from "./rate-reducer";
 
 
 jest.mock("../Api/api")
@@ -93,7 +88,6 @@ describe('reducer test', () => {
         expect(state.currencyBase).toBe('AFN')
     })
     it('change error status reducer test', () => {
-        const newCurrencyBase: string = 'AFN'
         const action = changeErrorStatusAC({error: true})
         const state = rateReducer(initialState, action)
         expect(state.error).toBe(true)
