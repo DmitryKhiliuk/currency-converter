@@ -1,17 +1,83 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {render, screen} from "@testing-library/react";
 import {MemoryRouter} from "react-router-dom";
 import App from "../../App/App";
 import {Converter} from "./Converter";
+import {AppRootStateType} from "../../App/store";
+import * as reduxHooks from "react-redux";
+import * as converterHooks from "./Converter";
+import userEvent from "@testing-library/user-event";
+import {reactHooksModule} from "@reduxjs/toolkit/dist/query/react";
 
-describe('', () => {
-    it('', () => {
+
+let startState: AppRootStateType
+jest.mock('react-redux')
+
+
+const mockedSelector = jest.spyOn(reduxHooks, 'useSelector')
+const mockedDispatch = jest.spyOn(reduxHooks, 'useDispatch')
+
+
+const setCurrencySelected = jest.fn()
+const dispatch = jest.fn()
+
+describe('converter component test', () => {
+    beforeEach(() => {
+        startState = {
+            rate: {
+                rates: {
+                    AED: 3.67241,
+                    AFN: 87.499985,
+                    USD: 1,
+                    EUR: 0.9402,
+                    GBR: 0.8234,
+                    PLN: 4.3955,
+                    CHF: 0.926
+                },
+                timestamp: 1671390002,
+                currencyBase: 'AFN',
+                error: false
+            }
+        }
+    })
+    it('change currency base test', () => {
+        mockedSelector.mockReturnValue(startState.rate)
+        mockedDispatch.mockReturnValue(dispatch)
         const view = render(<MemoryRouter><Converter currencyMain={['USD', 'EUR', 'GBP', 'PLN', 'CHF']}
                                                      currencyCode={['USD', 'EUR', 'GBP', 'PLN', 'CHF','AFN']}
                                                      currencyAncillary={['AED','AFN']}
                                                      quantity={1}
                                                      setQuantity={jest.fn()}
         /></MemoryRouter>)
-        
+        const btnEUR = screen.getAllByText('EUR')
+        userEvent.click(btnEUR[0])
+        expect(dispatch).toBeCalledTimes(1)
+    })
+    it('change currency selected test', () => {
+        mockedSelector.mockReturnValue(startState.rate)
+        const view = render(<MemoryRouter><Converter currencyMain={['USD', 'EUR', 'GBP', 'PLN', 'CHF']}
+                                                     currencyCode={['USD', 'EUR', 'GBP', 'PLN', 'CHF','AFN']}
+                                                     currencyAncillary={['AED','AFN']}
+                                                     quantity={1}
+                                                     setQuantity={jest.fn()}
+        /></MemoryRouter>)
+        const btnEUR = screen.getAllByText('EUR')
+        userEvent.click(btnEUR[1])
+        const text = screen.getByText(/1EUR/i)
+        expect(text).toBeInTheDocument()
+    })
+    it('change currency input test', () => {
+        mockedSelector.mockReturnValue(startState.rate)
+        const view = render(<MemoryRouter><Converter currencyMain={['USD', 'EUR', 'GBP', 'PLN', 'CHF']}
+                                                     currencyCode={['USD', 'EUR', 'GBP', 'PLN', 'CHF','AFN']}
+                                                     currencyAncillary={['AED','AFN']}
+                                                     quantity={1}
+                                                     setQuantity={jest.fn()}
+        /></MemoryRouter>)
+        const input = screen.getAllByRole('spinbutton')
+        userEvent.paste(input[0], '2')
+        expect(input.length).toBe(2)
+        console.log(input[0].textContent)
+
     })
 })
