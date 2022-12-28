@@ -19,7 +19,6 @@ type InputBoxPropsType = {
 
 
 export const InputBox = (props:InputBoxPropsType) => {
-
     let [nameDropdownButton, setNameDropdownButton] = useState('CZK')
 
     useEffect(() =>{

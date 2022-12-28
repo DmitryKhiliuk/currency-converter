@@ -71,13 +71,19 @@ describe('converter component test', () => {
         const view = render(<MemoryRouter><Converter currencyMain={['USD', 'EUR', 'GBP', 'PLN', 'CHF']}
                                                      currencyCode={['USD', 'EUR', 'GBP', 'PLN', 'CHF','AFN']}
                                                      currencyAncillary={['AED','AFN']}
-                                                     quantity={1}
+                                                     quantity={13}
                                                      setQuantity={jest.fn()}
         /></MemoryRouter>)
         const input = screen.getAllByRole('spinbutton')
-        userEvent.paste(input[0], '2')
         expect(input.length).toBe(2)
-        console.log(input[0].textContent)
+        expect(input[0]).toHaveValue('1')
+        expect(input[1]).toHaveValue('0.0114')
+        userEvent.type(input[0], '1')
+        expect(input[0]).toHaveValue('11')
+        expect(input[1]).toHaveValue('0.1257')
+        userEvent.type(input[1], '1')
+        expect(input[1]).toHaveValue('0.12571')
+        expect(input[0]).toHaveValue('10.9996')
 
     })
 })

@@ -1,9 +1,16 @@
 import React from 'react';
 import {render, screen} from "@testing-library/react";
 import {InputBox} from "./InputBox";
+import {AppRootStateType} from "../../../App/store";
+import * as reduxHooks from "react-redux";
 
 jest.mock('react-redux')
-let startState
+const mockedSelector = jest.spyOn(reduxHooks, 'useSelector')
+
+
+const onChange = jest.fn()
+
+let startState: AppRootStateType
 
 describe('input box component test', () => {
     beforeEach(() => {
@@ -24,18 +31,17 @@ describe('input box component test', () => {
             }
         }
     })
-    it('', () => {
-        render(<InputBox currencyMain={['USD', 'EUR', 'GBP', 'PLN', 'CHF']}
+    it('fdsfdsf', () => {
+        mockedSelector.mockReturnValue(startState.rate)
+        const view = render(<InputBox currencyMain={['USD', 'EUR', 'GBP', 'PLN', 'CHF']}
                          activeButton={'AFN'}
                          oppositeButton={'USD'}
                          callBackButton={jest.fn()}
                          inputValue={1}
-                         inputHandler={jest.fn()}
+                         inputHandler={onChange}
                          value={1}
-                         arrayItems={[]}
-                         rateForBox={1}/>)
+                         arrayItems={[{key: 'AED', label: ' UAE dirham'}, {key: 'AFN', label: ' Afghan Afghani'}]}
+                         rateForBox={0.0113}/>)
     })
-    //const input = screen.getAllByRole('spinbutton')
-    screen.debug()
-    //console.log(input[0].textContent)
+    const btn = screen.getAllByRole('button')
 })

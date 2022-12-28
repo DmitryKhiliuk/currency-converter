@@ -16,7 +16,6 @@ type ConverterType = {
 }
 
 export const Converter = (props:ConverterType) => {
-
     const rate = useAppSelector(selectRate)
     const currencyBase = rate.currencyBase
     const rates = rate.rates
