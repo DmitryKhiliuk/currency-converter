@@ -48,6 +48,7 @@ export const Rate = (props:RatePropsType) => {
                     <>
                         <div>Base Currency</div>
                         <Select
+                            data-testid={'select'}
                             value={defaultValue}
                             style={{
                                 width: 250,

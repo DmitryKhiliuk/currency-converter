@@ -53,8 +53,8 @@ export const InputBox = (props:InputBoxPropsType) => {
             <Card>
                 <div>
                     {props.currencyMain.map((el, index) => <Button key={index} size={'large'}  onClick={() => onClickHandler(el)} type={el === props.activeButton ? 'primary': 'default'}>{el}</Button>)}
-                    <Button size={'large'} onClick={() => onClickHandler(nameDropdownButton)} type={nameDropdownButton === props.activeButton ? 'primary': 'default'}>{nameDropdownButton}</Button>
-                    <Dropdown overlay={menu}><Button size={'large'}><EllipsisOutlined /></Button></Dropdown>
+                    <Button data-testid={'drop-btn'} size={'large'} onClick={() => onClickHandler(nameDropdownButton)} type={nameDropdownButton === props.activeButton ? 'primary': 'default'}>{nameDropdownButton}</Button>
+                    <Dropdown overlay={menu}><Button size={'large'} ><EllipsisOutlined /></Button></Dropdown>
                 </div>
                 <div>
                     <Card style={{width: '100%', textAlign: 'center', marginTop: '10px'}} hoverable={true}>

@@ -4,7 +4,7 @@ import {MemoryRouter} from "react-router-dom";
 import {Navigation} from "./Navigation";
 
 describe('navigation component test', () => {
-    it('app render test', () => {
+    it('navigation render test', () => {
         const view = render(<MemoryRouter><Navigation/></MemoryRouter>)
         expect(view).toMatchSnapshot()
     })

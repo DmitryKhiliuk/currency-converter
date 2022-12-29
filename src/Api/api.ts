@@ -8,7 +8,6 @@ const instance = axios.create({
 
 export const rateAPI = {
     getRate() {
-        console.log('get')
         return instance.get<RateResponseType, AxiosResponse<RateResponseType>>(`latest.json`, {params: {app_id: '9ac9478509834ed58820c2b6688daeca'}})
     }
 }
