@@ -11,24 +11,24 @@ type RateTableType = {
     rate: RateType
     currencyBase: string
     quantity: number
-    saveCurrencyBase: (text:string) => void
+    saveCurrencyBase: (text: string) => void
 
 }
 
 export const RateTable = (props: RateTableType) => {
 
-    const handler = (text:string) => {
+    const handler = (text: string) => {
         props.saveCurrencyBase(text)
     }
 
 
-    const columns:(ColumnGroupType<DataItemType> | ColumnType<DataItemType>)[] = [
+    const columns: (ColumnGroupType<DataItemType> | ColumnType<DataItemType>)[] = [
         {
             title: 'Currency Name',
             dataIndex: 'currencyName',
             key: 'currencyName',
             defaultSortOrder: 'descend',
-            sorter: (a, b) => a.currencyName > b.currencyName ? 1 : -1,
+            sorter: (a, b) => b.currencyName > a.currencyName ? 1 : -1,
             render: (text: string, record: any) => <a onClick={() => handler(record.currencyCode)}>{text}</a>,
             width: '30%',
         },
@@ -59,7 +59,9 @@ export const RateTable = (props: RateTableType) => {
 
     ];
 
-
+    if (window.innerWidth < 775) {
+        columns.splice(1,1)
+    }
 
     let data: DataType = []
 
@@ -92,9 +94,9 @@ export const RateTable = (props: RateTableType) => {
     })
     return (
         <div style={{color: 'red'}}>
-            <Table columns={columns}
-                   dataSource={data}
-                   />
+                <Table columns={columns}
+                       dataSource={data}
+                />
         </div>
 
     )
